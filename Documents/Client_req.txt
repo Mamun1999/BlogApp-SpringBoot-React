@@ -1,0 +1,18 @@
+What we are going top builds: Client R4equirement
+
+Client wants blogging application  where he or she can write blogs and articles.
+user can comment on the blogs.
+
+We have to build simple blog app
+    User shouyld create, update, delete, and list posts
+    
+    User should add, update, delete comments on posts
+ 
+    Categories the post according to categories.
+
+    New user should be able to Register on our application
+
+    User should be ablt o login top our application.
+
+    Post include one poicture too.
+    
