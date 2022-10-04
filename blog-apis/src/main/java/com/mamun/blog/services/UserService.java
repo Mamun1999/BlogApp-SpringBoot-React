@@ -3,8 +3,11 @@ package com.mamun.blog.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.mamun.blog.payloads.UserDto;
 
+@Service
 public interface UserService {
 
     UserDto createUser(UserDto user);
