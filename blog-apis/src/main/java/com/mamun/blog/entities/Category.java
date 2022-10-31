@@ -13,31 +13,31 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
 @Entity
-@Table(name="users")
+@Table(name="categories")
 @NoArgsConstructor
 @Getter
 @Setter
-public class User {
+public class Category {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    
-    @Column(name="user_name", nullable = false, length = 100)
-    private String name;
-     
-    private String email;
+   @Id
+   @GeneratedValue(strategy = GenerationType.IDENTITY)
+   private Integer categoryId;
+   
+   
+   @Column(name="title", nullable = false, length = 100)
+   private String categoryTitle;
+   @Column(name="description")
+   private String categoryDescription;
+  
+   @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  private List<Post> posts=new ArrayList<>();
+  
 
-    private String passsword;
-
-    private String about;
-
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Post> posts=new ArrayList<>();
     
 }
