@@ -2,6 +2,7 @@ package com.mamun.blog.services.Impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,32 +54,51 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public Post updatePost(PostDto postDto, Integer postId) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
 
     @Override
-    public Post getPostById(Integer postId) {
-        // TODO Auto-generated method stub
-        return null;
+    public PostDto getPostById(Integer postId) {
+
+      Post post= this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
+       
+     
+     
+      return this.modelMapper.map(post, PostDto.class);
+       
     }
 
     @Override
-    public List<Post> getAllPost() {
-        // TODO Auto-generated method stub
-        return null;
+    public List<PostDto> getAllPost() {
+      List<Post> posts= this.postRepo.findAll();
+     List<PostDto> postDtos= posts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+
+        return postDtos;
     }
 
     @Override
-    public List<Post> getPostByCategory(Integer categoryId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<PostDto> getPostByCategory(Integer categoryId) {
+      Category category= this.categoryRepo.findById(categoryId).orElseThrow(()->
+       new ResourceNotFoundException("category", "Id", categoryId));
+      
+      List<Post> posts= this.postRepo.findByCategory(category);
+
+     List<PostDto> postDtos=posts.stream().map((post) -> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+
+
+
+
+        return postDtos;
     }
 
     @Override
-    public List<Post> getPostByUser(Integer userId) {
-        // TODO Auto-generated method stub
-        return null;
+    public List<PostDto> getPostByUser(Integer userId) {
+        User user= this.userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User", "id", userId));
+         List<Post> posts= this.postRepo.findByUser(user);
+
+       List<PostDto> postDtos=  posts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+        return postDtos;
     }
 
     @Override

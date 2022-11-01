@@ -14,12 +14,13 @@ public interface PostService {
 
     Post updatePost(PostDto postDto, Integer postId);
 
-    Post getPostById(Integer postId);
+    PostDto getPostById(Integer postId);
 
-    List<Post> getAllPost();
+    List<PostDto> getAllPost();
 
-    List<Post> getPostByCategory(Integer categoryId);
-    List<Post> getPostByUser(Integer userId);
+    List<PostDto> getPostByCategory(Integer categoryId);
+
+    List<PostDto> getPostByUser(Integer userId);
 
     List<Post> searchPosts(String keyword);
     
