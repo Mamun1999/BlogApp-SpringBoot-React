@@ -6,6 +6,9 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.mamun.blog.entities.Category;
@@ -13,6 +16,7 @@ import com.mamun.blog.entities.Post;
 import com.mamun.blog.entities.User;
 import com.mamun.blog.exceptions.ResourceNotFoundException;
 import com.mamun.blog.payloads.PostDto;
+import com.mamun.blog.payloads.PostPageInfo;
 import com.mamun.blog.repositories.CategoryRepo;
 import com.mamun.blog.repositories.PostRepo;
 import com.mamun.blog.repositories.UserRepo;
@@ -53,9 +57,15 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public Post updatePost(PostDto postDto, Integer postId) {
+    public PostDto updatePost(PostDto postDto, Integer postId) {
+        Post post= this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
         
-        return null;
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+
+       Post savedPost= this.postRepo.save(post);
+       
+        return this.modelMapper.map(savedPost, PostDto.class);
     }
 
     @Override
@@ -69,13 +79,69 @@ public class PostServiceImpl implements PostService {
        
     }
 
+    //
     @Override
-    public List<PostDto> getAllPost() {
-      List<Post> posts= this.postRepo.findAll();
-     List<PostDto> postDtos= posts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+    public PostPageInfo getAllPost(Integer pageNumber, Integer pageSize) {
+//   Integer pageNumber=1;
+//       Integer  pageSize=5;
 
-        return postDtos;
+      Pageable p= PageRequest.of(pageNumber, pageSize);
+
+      Page<Post> pages= this.postRepo.findAll(p); //here we get pages according to our pagenumber and page Size
+      // then we will show page content (pages )
+      //page number
+      //page size
+      //totalElements
+      //total pages
+      //lastPage
+
+      List<Post> posts= pages.getContent();
+
+      
+
+    //   List<Post> posts= this.postRepo.findAll();
+
+
+     List<PostDto> postDtos= posts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+  
+     PostPageInfo postPageInfo=new PostPageInfo();
+
+     postPageInfo.setContents(postDtos);//number of posts
+     postPageInfo.setPageSize(pages.getSize());
+     postPageInfo.setPageNumber(pages.getNumber());
+     postPageInfo.setTotalElements(pages.getNumberOfElements());
+     postPageInfo.setTotalpages(pages.getTotalPages());
+     postPageInfo.setLastPage(pages.isLast());
+        return postPageInfo;
     }
+    //
+
+//     @Override
+//     public List<PostDto> getAllPost(Integer pageNumber, Integer pageSize) {
+// //   Integer pageNumber=1;
+// //       Integer  pageSize=5;
+
+//       Pageable p= PageRequest.of(pageNumber, pageSize);
+
+//       Page<Post> pages= this.postRepo.findAll(p); //here we get pages according to our pagenumber and page Size
+//       // then we will show page content (pages )
+//       //page number
+//       //page size
+//       //totalElements
+//       //total pages
+//       //lastPage
+
+//       List<Post> posts= pages.getContent();
+
+      
+
+//     //   List<Post> posts= this.postRepo.findAll();
+
+
+//      List<PostDto> postDtos= posts.stream().map((post)-> this.modelMapper.map(post, PostDto.class)).collect(Collectors.toList());
+
+//         return postDtos;
+//     }
 
     @Override
     public List<PostDto> getPostByCategory(Integer categoryId) {
@@ -103,8 +169,12 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public List<Post> searchPosts(String keyword) {
-        // TODO Auto-generated method stub
+        
         return null;
     }
     
+    public void deletePost(Integer postId){
+        Post post= this.postRepo.findById(postId).orElseThrow(()->  new ResourceNotFoundException("Post", "id", postId));
+        this.postRepo.delete(post);
+    }
 }
