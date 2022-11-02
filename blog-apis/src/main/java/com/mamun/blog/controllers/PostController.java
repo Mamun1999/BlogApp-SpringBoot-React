@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mamun.blog.config.Constants;
 import com.mamun.blog.payloads.ApiResponse;
 import com.mamun.blog.payloads.PostDto;
 import com.mamun.blog.payloads.PostPageInfo;
@@ -63,13 +64,15 @@ public class PostController {
 
     @GetMapping("/posts")
     public ResponseEntity<PostPageInfo> getAllPost(
-       @RequestParam(value = "pageNumber" ,defaultValue = "0" , required = false) Integer pageNumber,
-       @RequestParam(value = "pageSize" ,defaultValue = "10", required = false) Integer pageSize
+       @RequestParam(value = "pageNumber" ,defaultValue = Constants.PAGE_NUMBER , required = false) Integer pageNumber,
+       @RequestParam(value = "pageSize" ,defaultValue = Constants.PAGE_SIZE, required = false) Integer pageSize,
+       @RequestParam(value = "sortBy", defaultValue = Constants.SORT_BY, required = false) String sortBy,
+       @RequestParam(value = "sortDir", defaultValue = Constants.SORT_DIR, required = false) String sortDir
     ){
 
      
 
-       PostPageInfo postPageInfo= this.postService.getAllPost(pageNumber, pageSize);
+       PostPageInfo postPageInfo= this.postService.getAllPost(pageNumber, pageSize, sortBy, sortDir);
 
        return new ResponseEntity<PostPageInfo>(postPageInfo, HttpStatus.OK);
     }
@@ -93,5 +96,14 @@ public class PostController {
          
       this.postService.deletePost(postId);
      return new ResponseEntity<>(new ApiResponse("Post Deleted successfully", true),HttpStatus.OK);
+    }
+
+    @GetMapping("/posts/search/{keyword}")
+    public ResponseEntity<List<PostDto>> searchbyTitle(@PathVariable String keyword){
+
+     List<PostDto> postDtos= this.postService.searchPosts(keyword);
+
+     return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
+
     }
 }
