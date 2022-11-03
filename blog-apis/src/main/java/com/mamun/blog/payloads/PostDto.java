@@ -17,7 +17,7 @@ public class PostDto {
 
     private String content;
 
-    private String imagaName;
+    private String imageName;
 
     private Date addedDate;
 
