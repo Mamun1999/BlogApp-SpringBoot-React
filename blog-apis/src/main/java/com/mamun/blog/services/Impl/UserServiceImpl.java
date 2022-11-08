@@ -71,24 +71,25 @@ public class UserServiceImpl implements UserService {
     }
     
     public User dtoToUser(UserDto userDto){
-        User user= this.modelMapper.map(userDto, User.class);
-        // User user=new User();
-        // user.setId(userDto.getId());
-        // user.setName(userDto.getName());
-        // user.setEmail(userDto.getEmail());
-        // user.setPasssword(userDto.getPassword());
-        // user.setAbout(userDto.getAbout());
+        // User user= this.modelMapper.map(userDto, User.class);
+        User user=new User();
+        user.setId(userDto.getId());
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        user.setPasssword(userDto.getPassword());
+        user.setAbout(userDto.getAbout());
 
         return user;
     }
 
     public UserDto userToDto(User user){
-        UserDto userDto=this.modelMapper.map(user, UserDto.class);
-        // userDto.setId(user.getId());
-        // userDto.setName(user.getName());
-        // userDto.setEmail(user.getEmail());
-        // userDto.setPassword(user.getPasssword());
-        // userDto.setAbout(user.getAbout());
+        // UserDto userDto=this.modelMapper.map(user, UserDto.class);
+        UserDto userDto=new UserDto();
+        userDto.setId(user.getId());
+        userDto.setName(user.getName());
+        userDto.setEmail(user.getEmail());
+        userDto.setPassword(user.getPasssword());
+        userDto.setAbout(user.getAbout());
 
         return userDto;
     }

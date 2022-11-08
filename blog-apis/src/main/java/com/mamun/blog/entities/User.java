@@ -24,6 +24,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -61,7 +63,7 @@ public class User implements UserDetails {
     List<SimpleGrantedAuthority> authorities=  this.roles.stream().map((role)-> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
         return authorities;
     }
-
+   
     @Override
     public String getPassword() {
         
