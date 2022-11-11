@@ -24,7 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+import com.mamun.blog.payloads.RoleDto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -53,7 +53,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Post> posts=new ArrayList<>();
     
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL , fetch = FetchType.EAGER)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name="user", referencedColumnName = "id")
     , inverseJoinColumns = @JoinColumn(name="role", referencedColumnName = "id"))
     private Set<Role> roles=new HashSet<>();
@@ -67,7 +67,7 @@ public class User implements UserDetails {
     @Override
     public String getPassword() {
         
-        return passsword;
+        return this.passsword;
     }
 
     @Override

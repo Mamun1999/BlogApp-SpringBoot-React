@@ -14,9 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mamun.blog.exceptions.ApiException;
 import com.mamun.blog.payloads.JwtAuthRequest;
 import com.mamun.blog.payloads.JwtAuthResponse;
+import com.mamun.blog.payloads.UserDto;
 import com.mamun.blog.security.JwtTokenHelper;
+import com.mamun.blog.services.UserService;
 
 @RestController
 @RequestMapping("/api/auth/")
@@ -29,6 +32,9 @@ public class AuthController {
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authententicationManager;
+
+    @Autowired
+    private UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> createToken(@RequestBody JwtAuthRequest jwtAuthRequest) throws Exception{
@@ -44,8 +50,16 @@ public class AuthController {
       JwtAuthResponse response=new JwtAuthResponse();
       response.setToken(token);
 
-      return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
+      return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.BAD_REQUEST);
 
+
+    }
+     @PostMapping("/register")
+    public ResponseEntity<UserDto> registerNewUser(@RequestBody UserDto userDto){
+
+       UserDto createdUser= this.userService.registerUser(userDto);
+
+       return new ResponseEntity<>(createdUser, HttpStatus.CREATED);
 
     }
 
@@ -59,7 +73,7 @@ public class AuthController {
 
        } catch (BadCredentialsException e) {
         System.out.println("Invalid details");
-        throw new Exception("Invalid username or password");
+        throw new ApiException("Invalid username or password");
         // TODO: handle exception
        }
     }

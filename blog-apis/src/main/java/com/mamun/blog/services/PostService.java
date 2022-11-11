@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.mamun.blog.entities.Post;
+
 import com.mamun.blog.payloads.PostDto;
 import com.mamun.blog.payloads.PostPageInfo;
 

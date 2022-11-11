@@ -6,11 +6,15 @@ import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.mamun.blog.config.Constants;
+import com.mamun.blog.entities.Role;
 import com.mamun.blog.entities.User;
 import com.mamun.blog.exceptions.ResourceNotFoundException;
 import com.mamun.blog.payloads.UserDto;
+import com.mamun.blog.repositories.RoleRepo;
 import com.mamun.blog.repositories.UserRepo;
 import com.mamun.blog.services.UserService;
 @Service
@@ -20,6 +24,10 @@ public class UserServiceImpl implements UserService {
     private UserRepo userRepo;
     @Autowired
     private ModelMapper modelMapper;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleRepo roleRepo;
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -83,14 +91,32 @@ public class UserServiceImpl implements UserService {
     }
 
     public UserDto userToDto(User user){
-        // UserDto userDto=this.modelMapper.map(user, UserDto.class);
-        UserDto userDto=new UserDto();
-        userDto.setId(user.getId());
-        userDto.setName(user.getName());
-        userDto.setEmail(user.getEmail());
-        userDto.setPassword(user.getPasssword());
-        userDto.setAbout(user.getAbout());
+        UserDto userDto=this.modelMapper.map(user, UserDto.class);
+        // UserDto userDto=new UserDto();
+        // userDto.setId(user.getId());
+        // userDto.setName(user.getName());
+        // userDto.setEmail(user.getEmail());
+        // userDto.setPassword(user.getPasssword());
+        // userDto.setAbout(user.getAbout());
+        
 
         return userDto;
+    }
+
+    @Override
+    public UserDto registerUser(UserDto userDto) {
+        
+      User user=  this.dtoToUser(userDto);
+
+       user.setPasssword(passwordEncoder.encode(user.getPassword()));
+      Role role= this.roleRepo.findById(Constants.NORMAL_ROLE).get();
+
+       user.getRoles().add(role);
+
+       User newUser=this.userRepo.save(user);
+
+
+
+        return this.userToDto(newUser);
     }
 }

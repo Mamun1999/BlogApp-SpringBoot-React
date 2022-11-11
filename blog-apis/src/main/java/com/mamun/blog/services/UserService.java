@@ -10,6 +10,8 @@ import com.mamun.blog.payloads.UserDto;
 @Service
 public interface UserService {
 
+    UserDto registerUser(UserDto userDto);// for register new normal user
+
     UserDto createUser(UserDto user);
 
     UserDto updateuser(UserDto user, Integer userId);
