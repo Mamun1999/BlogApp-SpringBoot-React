@@ -1,9 +1,13 @@
+import CustomNavbar from "./CustomNavbar";
+
+
+
 const Base = ({ title = "Welcome to our website", children }) => {
 
     return (
-        <div className="container-fluid"> 
+        <div > 
            
-            <h1>This is header</h1>
+         <CustomNavbar/>
 
             {children}
 
@@ -13,3 +17,4 @@ const Base = ({ title = "Welcome to our website", children }) => {
      
     );
 };
+export default Base;

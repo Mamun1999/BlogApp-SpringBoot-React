@@ -1,10 +1,11 @@
 const About = () =>{
 
     return (
-        <div>
-            <h1>This is about page</h1>
+       <div className="container">
+        <h1>This is about page</h1>
             <button>Click hre</button>
-        </div>
+         
+       </div>
     );
 }
 export default About;
