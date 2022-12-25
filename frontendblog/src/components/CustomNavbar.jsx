@@ -1,3 +1,4 @@
+import { NavLink as ReactLink } from 'react-router-dom';
 import React, { useState } from 'react';
 import {
   Collapse,
@@ -26,33 +27,35 @@ function CustomNavbar() {
                 expand="md"
                 fixed=""
                 className="px-5">
-        <NavbarBrand href="/">
+        <NavbarBrand tag={ReactLink} to="/">
       Blog
     </NavbarBrand>
         <NavbarToggler onClick={toggle} />
         <Collapse isOpen={isOpen} navbar>
           <Nav className="me-auto" navbar>
             <NavItem>
-              <NavLink href="/components/">Components</NavLink>
+              {/* for component showing dynamically we declare NavLink as reactlink and now we use tag={ReactLink} to ="/login" */}
+              <NavLink tag={ReactLink} to="/about">About</NavLink>
             </NavItem>
             <NavItem>
-              <NavLink href="https://github.com/reactstrap/reactstrap">
-                GitHub
-              </NavLink>
+            <NavLink tag={ReactLink} to="/login">Login</NavLink>
+            </NavItem>
+            <NavItem>
+            <NavLink tag={ReactLink} to="/signup">Signup</NavLink>
             </NavItem>
             <UncontrolledDropdown nav inNavbar>
               <DropdownToggle nav caret>
                 Options
               </DropdownToggle>
               <DropdownMenu right>
-                <DropdownItem>Option 1</DropdownItem>
-                <DropdownItem>Option 2</DropdownItem>
+                <DropdownItem tag={ReactLink} to="/services">Services</DropdownItem>
+                <DropdownItem>Contact</DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem>Reset</DropdownItem>
+                <DropdownItem>Facebook</DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>
-          <NavbarText>Simple Text</NavbarText>
+          <NavbarText>Welcome!</NavbarText>
         </Collapse>
       </Navbar>
     </div>
