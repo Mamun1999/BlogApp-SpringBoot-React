@@ -22,7 +22,7 @@ function CustomNavbar() {
 
   return (
     <div>
-      <Navbar color="success"
+      <Navbar color="info"
                 dark
                 expand="md"
                 fixed=""

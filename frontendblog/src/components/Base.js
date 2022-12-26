@@ -11,7 +11,7 @@ const Base = ({ title = "Welcome to our website", children }) => {
 
             {children}
 
-            <h1>This is footer</h1>
+       
         </div>
 
      
