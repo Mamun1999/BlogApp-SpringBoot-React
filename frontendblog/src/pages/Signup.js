@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -11,25 +13,62 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import Base from "../components/Base";
+import Base from "../components/Base"; 
 
 const Signup = () => {
+
+
+  const[data, setData] = useState({
+
+
+    name: "", 
+    email: "", 
+    password: "", 
+    about: "", 
+  }) 
+
+  const[error, setError] =useState({
+    errors:{},
+    isError: false
+
+  })
+
+  // useEffect(()=>{
+  //   // using use effect, now we will be able to print the data
+  //   console.log(data); 
+  // },[data])
+
+  const submitForm=(event)=>{
+         event.preventDefault();
+         console.log(data);
+  }
+
+  const handleChange=(event,property)=>{
+    setData({...data,[property]:event.target.value })
+        // setData({...data, name:event.target.value})
+        // we can't print data object value because this wroks asychronizely. we have to use useEffect to print adad value
+  };
+
   return (
     <Base>
       <Container>
+        ({JSON.stringify(data)})
         <Row className="mt-3">
           <Col sm={{ size: 6, offset: 3 }}>
             <Card color="dark" inverse>
               <CardHeader><h1 className="text-center">Resgister</h1></CardHeader>
 
               <CardBody>
-                <Form>
+                <Form onSubmit={submitForm}>
                   <FormGroup>
-                    <Label for="name"> Enter name</Label>
+                    <Label for="name"> Enter name</Label> 
                     <Input
                       type="text"
                       id="name"
                       placeholder="Enter here"
+                      onChange={(e)=>handleChange(e,'name')}  
+                      value={data.name}
+                      // storing name into e (event) and passing it into handleChange function
                     ></Input>
                   </FormGroup>
 
@@ -39,6 +78,8 @@ const Signup = () => {
                       type="email"
                       id="email"
                       placeholder="Enter here"
+                      onChange={(e)=>handleChange(e,'email')}  
+                      value={data.email}
                     ></Input>
                   </FormGroup>
 
@@ -48,6 +89,8 @@ const Signup = () => {
                       type="password"
                       id="pass"
                       placeholder="Enter here"
+                      onChange={(e)=>handleChange(e,'password')}  
+                      value={data.password}
                     ></Input>
                   </FormGroup>
 
@@ -58,6 +101,8 @@ const Signup = () => {
                       id="about"
                       style={{ height: "250px" }}
                       placeholder="Enter here"
+                      onChange={(e)=>handleChange(e,'about')}  
+                      value={data.about}
                     ></Input>
                   </FormGroup>
 
