@@ -12,10 +12,14 @@ import About from './pages/About';
 import Signup from './pages/Signup';
 import Services from './pages/Services';
 
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+
 function App() {
   return (
    
      <BrowserRouter>
+     <ToastContainer position='top-center'/>
      <Routes>
       <Route path="/" element={ <Home/>}/>
       <Route path="login" element={<Login/> }/>
