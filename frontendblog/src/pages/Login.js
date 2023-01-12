@@ -15,7 +15,7 @@ import {
 import { useState } from "react";
 import { toast } from "react-toastify";
 import { userLogin } from "../services/user-services";
-
+import { doLogin } from "../Auth";
 const Login = () =>{
   
 
@@ -47,9 +47,16 @@ const Login = () =>{
 
     //call server
 
-    userLogin(loginData).then((jwtTokenData)=>{
-      console.log("user login:");
-          console.log(jwtTokenData)
+    userLogin(loginData).then((data)=>{
+      
+          console.log(data)
+
+          //save the data to local storage
+     
+          doLogin(data,()=>{
+            console.log("login detailed is saved to local storage");
+            
+          })
           
           toast.success("Login success!!")
 
