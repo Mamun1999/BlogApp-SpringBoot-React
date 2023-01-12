@@ -12,9 +12,68 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import { useState } from "react";
+import { toast } from "react-toastify";
+import { userLogin } from "../services/user-services";
 
 const Login = () =>{
   
+
+  const[loginData, setLoginData]= useState({
+    username: "",
+    password: ""
+
+  })
+
+  
+
+
+  const handleChange=(event,inputField)=>{
+    let actualValue=event.target.value;
+
+    setLoginData({...loginData,  [inputField]: actualValue});
+  
+  }
+
+ const submitForm=(event)=>{
+    event.preventDefault();
+
+    console.log(loginData)
+
+    if(loginData.username.trim()=='' || loginData.password.trim()==''){
+      toast.error("!!Please enter username and password")
+      return;
+    }
+
+    //call server
+
+    userLogin(loginData).then((jwtTokenData)=>{
+      console.log("user login:");
+          console.log(jwtTokenData)
+          
+          toast.success("Login success!!")
+
+    }).catch(error=>{
+         
+         console.log(error)
+         if(error.response.status==400|| error.response.status==404){
+          toast.error(error.response.data.message)
+         }
+        else{
+          toast.error("something went wrongon server!!")
+        }
+    });
+
+
+
+    
+
+
+
+  }
+
+
+
 
     return (
       <Base>
@@ -25,7 +84,7 @@ const Login = () =>{
               <CardHeader><h1 className="text-center">Login</h1></CardHeader>
 
               <CardBody>
-                <Form>
+                <Form onSubmit={submitForm}>
                   
 
                   <FormGroup>
@@ -34,6 +93,8 @@ const Login = () =>{
                       type="email"
                       id="email"
                       placeholder="Enter here"
+                      value={loginData.username}
+                      onChange={(e)=> handleChange(e,'username')}
                     ></Input>
                   </FormGroup>
 
@@ -43,6 +104,8 @@ const Login = () =>{
                       type="password"
                       id="pass"
                       placeholder="Enter here"
+                      value={loginData.password}
+                      onChange= {(e)=> handleChange(e,'password')}
                     ></Input>
                   </FormGroup>
 

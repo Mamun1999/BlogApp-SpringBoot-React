@@ -40,6 +40,8 @@ const Signup = () => {
     event.preventDefault();
     console.log(data);
 
+    
+
     // for data validate
 
     // if (error.isError) {
@@ -52,17 +54,17 @@ const Signup = () => {
 
     signUp(data)
       .then((resp) => {
-        console.log(resp);
-        //this resp is comming frm (userServices) response.json()
-        console.log("success log");
-        toast.success("User registered successfully");
+        console.log(resp);  
+        //this resp is comming frm (userServices) response.json()  
+        console.log("success log");  
+        toast.success("User registered successfully");  
 
-        setData({
-          name: "",
-          email: "",
-          password: "",
-          about: "",
-        });
+        setData({  
+          name: "",  
+          email: "",  
+          password: "",  
+          about: "",  
+        });  
       })
       .catch((error) => {
         console.log(error);
@@ -77,7 +79,8 @@ const Signup = () => {
   const handleChange = (event, property) => {
     setData({ ...data, [property]: event.target.value });
     // setData({...data, name:event.target.value})
-    // we can't print data object value because this wroks asychronizely. we have to use useEffect to print adad value
+    // we can't print data object value because this wroks asychronizely that means print function is wroking before the field is setting. we have to use useEffect to print adad value
+    // thats why we have ti use useffect
   };
 
   return (
@@ -103,10 +106,16 @@ const Signup = () => {
                       value={data.name}
                       // storing name into e (event) and passing it into handleChange function
                       invalid={
+
                         error.errors?.response?.data?.name ? true : false
+                        //if we do not use ? then if we submit, it wil show error because of undefined value
+                        // so for this we have to use null safe then it will not shoe any error.
+
+                         // and for showing the error message we have to use form feedback
+                            
                       }
                     ></Input>
-
+                    
                     <FormFeedback>
                       {error.errors?.response?.data?.name}
                     </FormFeedback>

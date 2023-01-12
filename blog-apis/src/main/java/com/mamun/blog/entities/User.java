@@ -24,7 +24,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mamun.blog.payloads.RoleDto;
+
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -44,6 +44,7 @@ public class User implements UserDetails {
     @Column(name="user_name", nullable = false, length = 100)
     private String name;
      
+    @Column(unique = true)
     private String email;
 
     private String passsword;
