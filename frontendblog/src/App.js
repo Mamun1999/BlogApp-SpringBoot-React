@@ -11,11 +11,11 @@ import Home from './pages/Home';
 import About from './pages/About';
 import Signup from './pages/Signup';
 import Services from './pages/Services';
-import UserDashboard from './pages/PrivateRoute/UserDashboard'; 
+import UserDashboard from './pages/UserRoute/UserDashboard'; 
 import { ToastContainer } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 import PrivateRoute from './components/PrivateRoute';
-import ProfileInfo from './pages/PrivateRoute/ProfileInfo';
+import ProfileInfo from './pages/UserRoute/ProfileInfo';
 
 
 function App() {
