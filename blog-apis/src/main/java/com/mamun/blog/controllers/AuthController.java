@@ -2,6 +2,7 @@ package com.mamun.blog.controllers;
 
 import javax.validation.Valid;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,12 +32,14 @@ public class AuthController {
     
     @Autowired
     private JwtTokenHelper jwtTokenHelper;
-
+    
+    @Autowired
+    private ModelMapper modelMapper;
     @Autowired
     private UserDetailsService userDetailsService;
     @Autowired
     private AuthenticationManager authententicationManager;
-
+    
     @Autowired
     private UserService userService;
 
@@ -53,7 +56,7 @@ public class AuthController {
 
       JwtAuthResponse response=new JwtAuthResponse();
       response.setToken(token);
-      
+      response.setUser(this.modelMapper.map((User)userDetails, UserDto.class));// by this we will call user and token in frontend local storage
       return new ResponseEntity<JwtAuthResponse>(response, HttpStatus.OK);
 
 

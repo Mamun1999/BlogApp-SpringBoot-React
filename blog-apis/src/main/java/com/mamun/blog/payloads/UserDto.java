@@ -49,6 +49,10 @@ public class UserDto {
 		return this.password;
 	}
 	
+	// @JsonProperty
+	// public void setPassword(String password) {
+	// 	this.password=password;
+	// }
 	@JsonProperty
 	public void setPassword(String password) {
 		this.password=password;
