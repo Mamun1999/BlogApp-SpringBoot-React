@@ -131,8 +131,9 @@ const AddPost = () => {
                 className="rounded-0"
                 name="categoryId"
                 onChange={fieldChange}
+                defaultValue={0}
               >
-                <option disabled value={0}>
+                <option defaultValue={0}>
                   --Select category--
                 </option>
 
