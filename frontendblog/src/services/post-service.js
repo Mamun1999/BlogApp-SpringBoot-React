@@ -6,6 +6,6 @@ import { myAxios } from "./helper";
     return privateAxios.post(`/user/${postData.userId}/category/${postData.categoryId}/posts`,postData).then(response=>response.data)
  }
 
- export const loadAllPost=()=>{
-    return myAxios.get(`/posts`).then((response)=>response.data)
+ export const loadAllPost=(pageNumber, pageSize)=>{
+    return myAxios.get(`/posts?pageNumber=${pageNumber}&pageSize=${pageSize}`).then((response)=>response.data)
  }
