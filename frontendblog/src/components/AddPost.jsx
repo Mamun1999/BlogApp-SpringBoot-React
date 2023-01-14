@@ -12,7 +12,7 @@ import {
   Button,
 } from "reactstrap";
 import { loadAllCategories } from "../services/category-service";
-import { createPost as doCreatePost } from "../services/post-service";
+import { createPost as doCreatePost, uploadPostImage } from "../services/post-service";
 import { getCurrentUserDetail } from "../Auth";
 import { toast } from "react-toastify";
 const AddPost = () => {
@@ -26,6 +26,8 @@ const AddPost = () => {
     content:'',
     categoryId:'' 
   })
+
+  const[image,setImage]=useState(null)
 //   const config={
 //     placeholder:"Start typing"
 //   }
@@ -75,6 +77,17 @@ const AddPost = () => {
         //Sent to the server
         post['userId']=user.id
        doCreatePost(post).then(data=>{
+
+
+     uploadPostImage(image,data.postId).then(data=>{
+      toast.success("Image uploaded")
+     }).catch(error=>{
+      toast.error("Error in handling image")
+      console.log(error)
+     })
+
+
+
        toast.success("Post created !!")
        setPost({
         title:'',
@@ -88,7 +101,12 @@ const AddPost = () => {
        })
     }
 
+//file change event
 
+const handleFileChange=(event)=>{
+  console.log(event.target.files[0])
+  setImage(event.target.files[0])
+}
   return (
     <div className="wrapper">
       <Card className="shadow-sm  border-0 mt-2">
@@ -125,6 +143,11 @@ const AddPost = () => {
                 className="rounded-0"
                 style={{ height: "300px" }}
               /> */}
+            </div>
+
+            <div className="mt-3">
+              <Label for="image">Select post banner</Label>
+              <Input id="image" type="file"onChange={handleFileChange}></Input>
             </div>
 
             <div className="my-3">

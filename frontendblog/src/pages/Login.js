@@ -17,8 +17,12 @@ import { toast } from "react-toastify";
 import { userLogin } from "../services/user-services";
 import { doLogin } from "../Auth";
 import { useNavigate } from "react-router-dom";
+import userContext from "../context/userContext";
+import { useContext } from "react";
 const Login = () =>{
-  
+   
+  const userContextData=useContext(userContext)
+
   const navgate=useNavigate()
   const[loginData, setLoginData]= useState({
     username: "",
@@ -57,6 +61,10 @@ const Login = () =>{
           doLogin(data,()=>{
             console.log("login detailed is saved to local storage");
             // redirect to user dashboard
+            userContextData.setUser({
+              data: data,
+              login: true
+            })
              navgate("/user/dashboard")
           })
           

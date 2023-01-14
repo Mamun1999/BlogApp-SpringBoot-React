@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Col, Row, Pagination, PaginationItem, PaginationLink, Container } from "reactstrap";
 import { loadAllPost } from "../services/post-service";
 import Post from "./Post";
+import { deletePostService } from "../services/post-service";
 
 function NewFeed() {
   const [postContent, setPostContent] = useState({
@@ -55,11 +56,24 @@ function NewFeed() {
     setCurrentPage(currentPage+1)
   }
 
+  function deletePost(post){
+    //deleting post
+    deletePostService(post.postId).then(response=>{
+      console.log(response)
+      toast.success("post is deleted")
+   let newPostContents= postContent.contents.filter(p=>p.postId!=post.postId)
+    setPostContent({...postContent, contents:newPostContents})
+    }).catch(error=>{
+      console.log(error)
+      toast.error("Error in deleteing post")
+    })
+  }
+
   return (
     <div className="container-fluid">
       <Row>
-        <Col md={{ size: 10, offset:1 }}>
-          <h1>Blogs count ({postContent.totalElements})</h1>
+        <Col md={{ size: 12, }}>
+          {/* <h1>Blogs count ({postContent?.totalElements})</h1> */}
             <InfiniteScroll
               dataLength={postContent.contents.length}
               next={changePageInfinite}
@@ -73,7 +87,7 @@ function NewFeed() {
             >
             {
                             postContent.contents?.map((post) => (
-                                <Post  post={post}  />
+                                <Post deletePost={deletePost}  post={post}  />
                                 //key={post.postId}
                             )) 
                         }
