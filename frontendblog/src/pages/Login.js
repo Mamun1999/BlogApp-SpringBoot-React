@@ -62,7 +62,7 @@ const Login = () =>{
             console.log("login detailed is saved to local storage");
             // redirect to user dashboard
             userContextData.setUser({
-              data: data,
+              data: data.user,
               login: true
             })
              navgate("/user/dashboard")

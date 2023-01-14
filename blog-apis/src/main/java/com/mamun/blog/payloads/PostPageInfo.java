@@ -14,7 +14,7 @@ public class PostPageInfo {
     private int pageNumber;
     private int pageSize;
     private int totalElements;
-    private int totalpages;
+    private int totalPages;
     private boolean lastPage;
     
 }

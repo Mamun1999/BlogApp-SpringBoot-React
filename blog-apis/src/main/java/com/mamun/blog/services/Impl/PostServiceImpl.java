@@ -62,10 +62,12 @@ public class PostServiceImpl implements PostService {
     @Override
     public PostDto updatePost(PostDto postDto, Integer postId) {
         Post post= this.postRepo.findById(postId).orElseThrow(()-> new ResourceNotFoundException("Post", "Id", postId));
-        
+        Category category=  this.categoryRepo.findById(postDto.getCategory().getCategoryId()).get();
+
         post.setTitle(postDto.getTitle());
         post.setContent(postDto.getContent());
         post.setImageName(postDto.getImageName());
+        post.setCategory(category);
 
        Post savedPost= this.postRepo.save(post);
        
@@ -123,7 +125,7 @@ Sort sort=(sortDir.equalsIgnoreCase("asc"))?Sort.by(sortBy).ascending():Sort.by(
      postPageInfo.setPageSize(pages.getSize());
      postPageInfo.setPageNumber(pages.getNumber());
      postPageInfo.setTotalElements(pages.getNumberOfElements());
-     postPageInfo.setTotalpages(pages.getTotalPages());
+     postPageInfo.setTotalPages(pages.getTotalPages());
      postPageInfo.setLastPage(pages.isLast());
         return postPageInfo;
     }

@@ -18,6 +18,7 @@ import ProfileInfo from './pages/UserRoute/ProfileInfo';
 import PostPage from './pages/PostPage';
 import UserProvider from './context/UserProvider';
 import Categories from './components/Categories';
+import UpdateBlog from './pages/UpdateBlog';
 
 function App() {
   return (
@@ -33,9 +34,11 @@ function App() {
       <Route path="/services" element={<Services/>}/>
       <Route path="/posts/:postId" element={<PostPage/>}/>
       <Route path="/categories/:categoryId" element={<Categories/>}/>
-      <Route path="/user" element={<PrivateRoute/>}>
+    
+    <Route path="/user" element={<PrivateRoute/>}>
       <Route path="dashboard" element={<UserDashboard/>}/>
-      <Route path="profile-info" element={<ProfileInfo/>}/>
+      <Route path="profile-info/:userId" element={<ProfileInfo/>}/>
+      <Route path="update-blog/:blogId" element={<UpdateBlog/>}/>
       </Route>
      </Routes>
 

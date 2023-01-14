@@ -25,9 +25,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mamun.blog.config.Constants;
+import com.mamun.blog.entities.Category;
 import com.mamun.blog.payloads.ApiResponse;
 import com.mamun.blog.payloads.PostDto;
 import com.mamun.blog.payloads.PostPageInfo;
+import com.mamun.blog.repositories.CategoryRepo;
 import com.mamun.blog.services.FileService;
 import com.mamun.blog.services.PostService;
 
@@ -37,7 +39,8 @@ public class PostController {
     
     @Autowired
     private PostService postService;
-
+    @Autowired
+    private CategoryRepo categoryRepo;
     @Autowired
     private FileService fileService;
 
@@ -64,6 +67,17 @@ public class PostController {
        List<PostDto> postDtos=this.postService.getPostByUser(userId);
        return new ResponseEntity<List<PostDto>>(postDtos, HttpStatus.OK);
     }
+
+    
+	// get by category
+
+	@GetMapping("/category/{categoryId}/posts")
+	public ResponseEntity<List<PostDto>> getPostsByCategory(@PathVariable Integer categoryId) {
+
+		List<PostDto> posts = this.postService.getPostByCategory(categoryId);
+		return new ResponseEntity<List<PostDto>>(posts, HttpStatus.OK);
+
+	}
 
     @GetMapping("/user/{userId}/category/{categoryId}/posts")
     public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable Integer userId,
@@ -100,7 +114,7 @@ public class PostController {
     @PutMapping("/posts/{postId}")
     public ResponseEntity<PostDto> updatePost(@PathVariable Integer postId, @RequestBody PostDto postDto){
             PostDto updatedPost= this.postService.updatePost(postDto, postId);
-
+          
             return new ResponseEntity<PostDto>(updatedPost, HttpStatus.OK);
     }
 

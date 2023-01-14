@@ -44,3 +44,7 @@ export function loadPostUserWise(userId){
 export function deletePostService(postId){
    return privateAxios.delete(  `/posts/${postId}`).then(res=>res.data)
 }
+
+export function updatePostService(post,postId){
+   return privateAxios.put(`/posts/${postId}`,post).then(res=>res.data)
+}
