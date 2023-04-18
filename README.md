@@ -1,2 +1,2 @@
 # BlogApp-SpringBoot-React
-This is  a quiz application. This application is developed  using Spring Boot and Angular.
+This is  a blog application. This application is developed  using Spring Boot and React.
